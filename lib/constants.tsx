@@ -3,7 +3,7 @@
 import { Mail } from "lucide-react";
 import { BsTwitterX, BsGithub, BsLinkedin, BsYoutube } from "react-icons/bs";
 
-export const APP_NAME = "Didjyah";
+export const APP_NAME = "DidjYah";
 export const DOMAIN_NAME = "didjyah.com";
 
 export const PRODUCT_LINKS = [
