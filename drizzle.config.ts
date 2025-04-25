@@ -1,10 +1,10 @@
-require("dotenv").config();
-
+// require("dotenv").config();
 import type { Config } from "drizzle-kit";
+import { env } from "@/env";
 
 export default {
-  schema: "./db/schema.ts",
-  out: "./migrations",
+  schema: "./src/server/db/schema.ts",
+  out: "./drizzle",
   dialect: "turso",
   dbCredentials: {
     url: process.env.TURSO_DATABASE_URL!,
