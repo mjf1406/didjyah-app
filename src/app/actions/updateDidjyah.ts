@@ -18,7 +18,9 @@ export interface UpdateDidjyahData {
   daily_goal?: number;
   timer?: number;
   stopwatch?: boolean;
+  since_last?: boolean;
   inputs?: string;
+  updated_date: string;
 }
 
 export async function updateDidjyah(
@@ -42,7 +44,9 @@ export async function updateDidjyah(
         daily_goal: data.daily_goal,
         timer: data.timer,
         stopwatch: data.stopwatch,
+        since_last: data.since_last,
         // inputs: data.inputs,
+        updated_date: data.updated_date,
       })
       .where(
         and(

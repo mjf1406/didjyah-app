@@ -7,10 +7,12 @@ import type { IconPrefix, IconName } from "@fortawesome/fontawesome-svg-core";
 import { toast } from "sonner";
 import { createDidjyahRecord } from "@/app/actions/addDidjyahRecord";
 import { useQueryClient } from "@tanstack/react-query";
-import { Progress } from "@/components/ui/progress"; // Adjust the import path if necessary
+import { Progress } from "@/components/ui/progress";
 import EditDidjyahDialog from "./EditDidjyahDialog";
 import { Button } from "../ui/button";
 import { generateUuidWithPrefix } from "@/lib/utils";
+import SinceStopwatch from "../SinceStopWatch";
+import DeleteDidjyahAlertDialog from "./DeleteDidjyahAlertDialog";
 
 interface DidjyahCardProps {
   detail: DidjyahDb;
@@ -27,17 +29,16 @@ const DidjyahCard: React.FC<DidjyahCardProps> = ({ detail }) => {
         <FontAwesomeIcon
           icon={[prefix as IconPrefix, iconName as IconName]}
           style={{ color: detail.icon_color ?? "#000000" }}
-          className="text-5xl"
+          className="text-3xl md:text-5xl"
         />
       );
     }
   }
   // Fallback if no icon is set
-  iconComponent ??= <span className="text-2xl">❓</span>;
+  iconComponent ??= <span className="text-xs md:text-2xl">❓</span>;
 
   // Filter records for today only based on created_date.
   const todayCount = detail.records.filter((record) => {
-    // Assuming record.created_date is in ISO format.
     const recordDate = new Date(record.created_date);
     const today = new Date();
     return recordDate.toDateString() === today.toDateString();
@@ -48,12 +49,9 @@ const DidjyahCard: React.FC<DidjyahCardProps> = ({ detail }) => {
   const handlePlayClick = async () => {
     // Create an optimistic record using a temporary ID.
     const optimisticRecord: DidjyahRecord = {
-      // id: `temp-${Date.now()}`,
       id: generateUuidWithPrefix("record_"),
       user_id: detail.user_id,
       didjyah_id: detail.id,
-      // Adjust the inputs type or value as needed.
-      // inputs: {} as any,
       test: "",
       created_date: new Date().toISOString(),
       updated_date: new Date().toISOString(),
@@ -88,13 +86,13 @@ const DidjyahCard: React.FC<DidjyahCardProps> = ({ detail }) => {
 
   // Calculate progress based on today's count multiplied by quantity
   // and the daily goal multiplied by quantity.
-  // Ensure we don't divide by zero if daily_goal or quantity is zero.
   const current = detail.quantity ? todayCount * detail.quantity : todayCount;
   const total =
     detail.daily_goal && detail.quantity
       ? detail.daily_goal * detail.quantity
       : (detail.daily_goal ?? 0);
   const percentage = total > 0 ? (current / total) * 100 : 0;
+  const dailyGoalNum = Number(detail.daily_goal);
 
   return (
     <div
@@ -105,67 +103,85 @@ const DidjyahCard: React.FC<DidjyahCardProps> = ({ detail }) => {
       <div
         id={`emoji-${detail.id}`}
         style={{ backgroundColor: detail.color ?? "#ffffff" }}
-        className="flex w-20 min-w-20 items-center justify-center p-4"
+        className="flex w-12 items-center justify-center p-2 md:w-20 md:min-w-20 md:p-4"
       >
         {iconComponent}
       </div>
 
       {/* Right Side: Main content */}
-      <div className="mx-auto flex w-full flex-col gap-2 p-4">
-        <div className="flex justify-between gap-5">
+      <div className="mx-auto flex w-full flex-col gap-1 p-2 md:gap-2 md:p-4">
+        <div className="flex justify-between gap-3 md:gap-5">
           {/* Name and performedToday */}
           <div className="flex flex-col">
-            <span id={`name-${detail.id}`} className="text-base font-semibold">
-              {detail.name}
+            <span
+              id={`name-${detail.id}`}
+              className="text-xs font-semibold md:text-base"
+            >
+              {detail.name}{" "}
+              {detail.since_last && detail.records.length > 0 && (
+                <SinceStopwatch
+                  startDateTime={
+                    detail.records[detail.records.length - 1]?.created_date ??
+                    null
+                  }
+                />
+              )}
             </span>
-            <span id={`performedToday-${detail.id}`} className="text-xs">
+            <span
+              id={`performedToday-${detail.id}`}
+              className="text-[10px] md:text-xs"
+            >
               <b>
-                {todayCount} {detail.daily_goal && `/ ${detail.daily_goal}`}
+                {todayCount} {dailyGoalNum > 0 && `/ ${dailyGoalNum}`}
               </b>{" "}
               {todayCount === 1 ? "time" : "times"} today{" "}
-              {detail.quantity != 0 && detail.quantity && detail.daily_goal && (
+              {detail.quantity !== 0 && detail.quantity && dailyGoalNum > 0 && (
                 <>
                   <b>
                     ({(todayCount * detail.quantity).toLocaleString()} /{" "}
-                    {(detail.daily_goal * detail.quantity).toLocaleString()}
+                    {(dailyGoalNum * detail.quantity).toLocaleString()})
                   </b>{" "}
-                  {detail.unit})
+                  {detail.unit}
                 </>
               )}
             </span>
           </div>
           {/* Buttons & Location Row */}
-          <div className="mt-2 flex items-center justify-end">
-            <div className="flex items-center justify-end">
-              <span
-                id={`stop-${detail.id}`}
-                className="text-supporting-light dark:text-supporting-dark hover:text-supporting-light/80 dark:hover:text-supporting-dark/80 hidden cursor-pointer"
-              >
-                <FontAwesomeIcon
-                  className="text-3xl text-red-600"
-                  icon={["fas", "stop"]}
-                />
-              </span>
-              <Button
-                id={`play-${detail.id}`}
-                onClick={handlePlayClick}
-                variant={"ghost"}
-                size={"icon"}
-              >
-                <FontAwesomeIcon
-                  className="text-3xl text-green-600"
-                  icon={["fas", "play"]}
-                />
-              </Button>
-              {/* Edit Button */}
-              <EditDidjyahDialog didjyah={detail} />
-            </div>
+          <div className="mt-1 flex items-center justify-end space-x-2 md:mt-2">
+            <span
+              id={`stop-${detail.id}`}
+              className="text-supporting-light dark:text-supporting-dark hover:text-supporting-light/80 dark:hover:text-supporting-dark/80 hidden cursor-pointer"
+            >
+              <FontAwesomeIcon
+                className="text-2xl text-red-600 md:text-3xl"
+                icon={["fas", "stop"]}
+              />
+            </span>
+            <Button
+              id={`play-${detail.id}`}
+              onClick={handlePlayClick}
+              variant={"ghost"}
+              size={"icon"}
+            >
+              <FontAwesomeIcon
+                className="text-2xl text-green-600 md:text-3xl"
+                icon={["fas", "play"]}
+              />
+            </Button>
+            {/* Edit */}
+            <EditDidjyahDialog didjyah={detail} />
+            {/* Delete */}
+            <DeleteDidjyahAlertDialog detail={detail} />
           </div>
         </div>
 
         {/* Progress Bar */}
-        {detail.daily_goal && (
-          <Progress showPercentage value={percentage} className="h-4 w-full" />
+        {dailyGoalNum > 0 && (
+          <Progress
+            showPercentage
+            value={percentage}
+            className="h-3 w-full md:h-4"
+          />
         )}
       </div>
     </div>

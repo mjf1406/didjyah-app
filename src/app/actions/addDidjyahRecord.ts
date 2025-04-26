@@ -28,8 +28,8 @@ export async function createDidjyahRecord(
       didjyah_id: data.didjyah_id,
       inputs: data.inputs,
       test: data.test,
-      // The following columns use default SQL values:
-      // created_date, updated_date, and end_date.
+      created_date: new Date().toISOString(),
+      updated_date: new Date().toISOString(),
     });
 
     return { success: true, message: null };

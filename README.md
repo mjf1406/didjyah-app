@@ -4,15 +4,17 @@
 
 - timer activation
 - stopwatch activation
-- since type but without it
 - inputs
-- delete Didjyah
+- drag and drop reorder Didjyahs
 
 ## Change Log
 
 ### 2025/04/26
 
+- delete Didjyah
 - can create and edit a Didjyah
+- since type is working
+- better mobile support
 
 ### 2025/04/25
 

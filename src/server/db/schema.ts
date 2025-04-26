@@ -19,6 +19,7 @@ export const didjyahs = sqliteTable('didjyahs',
         daily_goal: integer(),
         timer: integer(), // 0 means no timer is used
         stopwatch: integer({ mode: 'boolean'}),
+        since_last: integer({ mode: 'boolean'}),
         inputs: text({ mode: 'json'}).$type<DidjyahInput>(),
         records: text({ mode: 'json'}).$type<DidjyahRecord>(),
         created_date: text().default(sql`CURRENT_TIMESTAMP`).notNull(),

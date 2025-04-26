@@ -56,6 +56,7 @@ const didjyahSchema = z.object({
   daily_goal: z.coerce.number().optional(),
   timer: z.coerce.number().optional(),
   stopwatch: z.boolean().optional(),
+  since_last: z.boolean().optional(),
   inputs: z.string().optional(),
 });
 
@@ -115,6 +116,7 @@ export function CreateDidjyahDialog() {
         daily_goal: data.daily_goal,
         timer: data.timer,
         stopwatch: data.stopwatch ?? false,
+        since_last: data.since_last ?? false,
         // inputs: parsedInputs, // Use the parsedInputs value here
         records: [],
         created_date: new Date().toISOString(),
@@ -388,6 +390,24 @@ export function CreateDidjyahDialog() {
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center space-x-4">
                   <FormLabel>Use Stopwatch</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value ?? false}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Since Last */}
+            <FormField
+              control={form.control}
+              name="since_last"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center space-x-4">
+                  <FormLabel>Since Last</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value ?? false}

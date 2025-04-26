@@ -16,6 +16,7 @@ export interface NewDidjyahRecordData {
   quantity?: number;
   daily_goal?: number;
   timer?: number;
+  since_last?: boolean;
   stopwatch?: boolean;
 //   inputs?: string | undefined | null;
 }
@@ -42,8 +43,10 @@ export async function createDidjyah(
       quantity: data.quantity,
       daily_goal: data.daily_goal,
       timer: data.timer,
+      since_last: data.since_last,
       stopwatch: data.stopwatch,
-    //   inputs: data.inputs,
+      created_date: new Date().toISOString(),
+      updated_date: new Date().toISOString(),
     });
 
     return { success: true, message: null };

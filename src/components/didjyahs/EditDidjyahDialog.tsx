@@ -43,7 +43,7 @@ import ColorPicker from "../ShadcnColorPicker";
 import { Edit } from "lucide-react";
 import type { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
 
-// Same schema as in create dialog
+// Extend the schema to include updated_date. This field is stored as a string.
 const didjyahSchema = z.object({
   name: z.string().min(1, "Name is required"),
   type: z.enum(["since", "timer", "stopwatch", "daily", "goal"]),
@@ -57,6 +57,8 @@ const didjyahSchema = z.object({
   timer: z.coerce.number().optional(),
   stopwatch: z.boolean().optional(),
   inputs: z.string().optional(),
+  since_last: z.boolean().optional(),
+  updated_date: z.string().optional(),
 });
 
 // Define form type from schema
@@ -88,6 +90,8 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
         typeof didjyah.inputs === "string"
           ? didjyah.inputs
           : JSON.stringify(didjyah.inputs),
+      since_last: didjyah.since_last ?? false,
+      updated_date: didjyah.updated_date ?? new Date().toISOString(),
     },
   });
 
@@ -109,6 +113,8 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
         typeof didjyah.inputs === "string"
           ? didjyah.inputs
           : JSON.stringify(didjyah.inputs),
+      since_last: didjyah.since_last ?? false,
+      updated_date: didjyah.updated_date ?? new Date().toISOString(),
     });
   }, [didjyah, form]);
 
@@ -138,7 +144,7 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
       setOpen(false);
       form.reset();
 
-      // Fire off the server update in the background.
+      // Prepare the update data: update the updated_date with the current date/time string.
       const updateData: UpdateDidjyahData = {
         id: didjyah.id,
         name: data.name,
@@ -153,11 +159,13 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
         timer: data.timer,
         stopwatch: data.stopwatch,
         inputs: data.inputs,
+        since_last: data.since_last,
+        updated_date: new Date().toISOString(),
       };
 
       const response = await updateDidjyah(updateData);
       if (response.success) {
-        toast.success(`${APP_NAME} has been updated`);
+        toast.success(`${updateData.name} updated successfully!`);
       } else {
         toast.error(response.message ?? `Error updating ${APP_NAME}`);
         // Optionally, revert the optimistic update here if needed.
@@ -203,32 +211,6 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
               )}
             />
 
-            {/* Type */}
-            {/* <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Type</FormLabel>
-                  <FormControl>
-                    <select
-                      {...field}
-                      className="w-full rounded border p-2"
-                      value={field.value}
-                      onChange={field.onChange}
-                    >
-                      <option value="since">Since</option>
-                      <option value="timer">Timer</option>
-                      <option value="stopwatch">Stopwatch</option>
-                      <option value="daily">Daily</option>
-                      <option value="goal">Goal</option>
-                    </select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
             {/* Icon Picker */}
             <FormField
               control={form.control}
@@ -242,12 +224,11 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
                         field.value?.includes("|")
                           ? (() => {
                               const [prefix, name] = field.value.split("|");
-                              // Only pass if both prefix and name are defined
                               return prefix && name
-                                ? {
+                                ? ({
                                     prefix: prefix as IconPrefix,
                                     name: name as IconName,
-                                  }
+                                  } as const)
                                 : undefined;
                             })()
                           : undefined
@@ -418,6 +399,39 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
                       checked={field.value ?? false}
                       onCheckedChange={field.onChange}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Since Last */}
+            <FormField
+              control={form.control}
+              name="since_last"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center space-x-4">
+                  <FormLabel>Since Last</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value ?? false}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Updated Date */}
+            <FormField
+              control={form.control}
+              name="updated_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last Updated</FormLabel>
+                  <FormControl>
+                    <Input disabled {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

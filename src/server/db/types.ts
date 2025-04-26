@@ -31,6 +31,7 @@ export type DidjyahDb = {
   quantity?: number;
   daily_goal?: number;
   timer?: number;
+  since_last?: boolean;
   stopwatch?: boolean;
   // The "inputs" field here is assumed to follow the DidjyahInput type.
   inputs?: DidjyahInput;
