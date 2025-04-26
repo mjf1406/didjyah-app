@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -12,13 +12,10 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogDescription,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -42,6 +39,7 @@ import FAIconPicker from "../FAIconPicker";
 import ColorPicker from "../ShadcnColorPicker";
 import { Edit } from "lucide-react";
 import type { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
+import { DialogDrawer } from "../ui/dialog-drawer";
 
 // Extend the schema to include updated_date. This field is stored as a string.
 const didjyahSchema = z.object({
@@ -69,7 +67,6 @@ interface EditDidjyahDialogProps {
 }
 
 export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
-  const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const form = useForm<DidjyahFormValues>({
@@ -95,7 +92,7 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
     },
   });
 
-  // When the didjyah prop changes, reset the form with the new default values.
+  // When the `didjyah` prop changes, reset the form with the new values.
   useEffect(() => {
     form.reset({
       name: didjyah.name,
@@ -140,11 +137,10 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
           : [],
       );
 
-      // Immediately close the dialog and reset the form.
-      setOpen(false);
+      // Reset the form immediately.
       form.reset();
 
-      // Prepare the update data: update the updated_date with the current date/time string.
+      // Prepare the update data: update the updated_date with the current date/time.
       const updateData: UpdateDidjyahData = {
         id: didjyah.id,
         name: data.name,
@@ -177,289 +173,289 @@ export function EditDidjyahDialog({ didjyah }: EditDidjyahDialogProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <DialogDrawer
+      trigger={
         <Button variant="ghost" size={"icon"}>
           <Edit />
         </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit {APP_NAME}</DialogTitle>
-          <DialogDescription>
-            Update the details for {didjyah.name}.
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4"
-            noValidate
-          >
-            {/* Name */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Didjyah Name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      }
+      className="overflow-y-auto sm:max-w-[425px]"
+    >
+      <DialogHeader>
+        <DialogTitle>Edit {APP_NAME}</DialogTitle>
+        <DialogDescription>
+          Update the details for {didjyah.name}.
+        </DialogDescription>
+      </DialogHeader>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4"
+          noValidate
+        >
+          {/* Name */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Didjyah Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Icon Picker */}
-            <FormField
-              control={form.control}
-              name="icon"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Icon</FormLabel>
-                  <FormControl>
-                    <FAIconPicker
-                      selectedIcon={
-                        field.value?.includes("|")
-                          ? (() => {
-                              const [prefix, name] = field.value.split("|");
-                              return prefix && name
-                                ? ({
-                                    prefix: prefix as IconPrefix,
-                                    name: name as IconName,
-                                  } as const)
-                                : undefined;
-                            })()
-                          : undefined
-                      }
-                      onSelectIcon={(iconName, prefix) =>
-                        field.onChange(`${prefix}|${iconName}`)
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Icon Picker */}
+          <FormField
+            control={form.control}
+            name="icon"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Icon</FormLabel>
+                <FormControl>
+                  <FAIconPicker
+                    selectedIcon={
+                      field.value?.includes("|")
+                        ? (() => {
+                            const [prefix, name] = field.value.split("|");
+                            return prefix && name
+                              ? ({
+                                  prefix: prefix as IconPrefix,
+                                  name: name as IconName,
+                                } as const)
+                              : undefined;
+                          })()
+                        : undefined
+                    }
+                    onSelectIcon={(iconName, prefix) =>
+                      field.onChange(`${prefix}|${iconName}`)
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Icon Color Picker */}
-            <FormField
-              control={form.control}
-              name="icon_color"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Icon Color</FormLabel>
-                  <FormControl>
-                    <ColorPicker
-                      selectedColor={field.value ?? "#000000"}
-                      onSelectColor={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Icon Color Picker */}
+          <FormField
+            control={form.control}
+            name="icon_color"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Icon Color</FormLabel>
+                <FormControl>
+                  <ColorPicker
+                    selectedColor={field.value ?? "#000000"}
+                    onSelectColor={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* General Color Picker */}
-            <FormField
-              control={form.control}
-              name="color"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Color</FormLabel>
-                  <FormControl>
-                    <ColorPicker
-                      selectedColor={field.value ?? "#000000"}
-                      onSelectColor={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* General Color Picker */}
+          <FormField
+            control={form.control}
+            name="color"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Color</FormLabel>
+                <FormControl>
+                  <ColorPicker
+                    selectedColor={field.value ?? "#000000"}
+                    onSelectColor={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Description */}
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Description" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Description */}
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input placeholder="Description" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Unit */}
-            <FormField
-              control={form.control}
-              name="unit"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Unit</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Unit of measure" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Unit */}
+          <FormField
+            control={form.control}
+            name="unit"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Unit</FormLabel>
+                <FormControl>
+                  <Input placeholder="Unit of measure" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Quantity */}
-            <FormField
-              control={form.control}
-              name="quantity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Quantity</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Quantity"
-                      value={field.value ?? ""}
-                      onChange={(e) => {
-                        const value =
-                          e.target.value === ""
-                            ? undefined
-                            : Number(e.target.value);
-                        field.onChange(value);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Quantity */}
+          <FormField
+            control={form.control}
+            name="quantity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Quantity</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Quantity"
+                    value={field.value ?? ""}
+                    onChange={(e) => {
+                      const value =
+                        e.target.value === ""
+                          ? undefined
+                          : Number(e.target.value);
+                      field.onChange(value);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Daily Goal */}
-            <FormField
-              control={form.control}
-              name="daily_goal"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Daily Goal</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Daily Goal"
-                      value={field.value ?? ""}
-                      onChange={(e) => {
-                        const value =
-                          e.target.value === ""
-                            ? undefined
-                            : Number(e.target.value);
-                        field.onChange(value);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Daily Goal */}
+          <FormField
+            control={form.control}
+            name="daily_goal"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Daily Goal</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Daily Goal"
+                    value={field.value ?? ""}
+                    onChange={(e) => {
+                      const value =
+                        e.target.value === ""
+                          ? undefined
+                          : Number(e.target.value);
+                      field.onChange(value);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Timer */}
-            <FormField
-              control={form.control}
-              name="timer"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Timer (in seconds)</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Timer value"
-                      value={field.value ?? ""}
-                      onChange={(e) => {
-                        const value =
-                          e.target.value === ""
-                            ? undefined
-                            : Number(e.target.value);
-                        field.onChange(value);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Timer */}
+          <FormField
+            control={form.control}
+            name="timer"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Timer (in seconds)</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Timer value"
+                    value={field.value ?? ""}
+                    onChange={(e) => {
+                      const value =
+                        e.target.value === ""
+                          ? undefined
+                          : Number(e.target.value);
+                      field.onChange(value);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Stopwatch */}
-            <FormField
-              control={form.control}
-              name="stopwatch"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center space-x-4">
-                  <FormLabel>Use Stopwatch</FormLabel>
-                  <FormControl>
-                    <Switch
-                      checked={field.value ?? false}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Stopwatch */}
+          <FormField
+            control={form.control}
+            name="stopwatch"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center space-x-4">
+                <FormLabel>Use Stopwatch</FormLabel>
+                <FormControl>
+                  <Switch
+                    checked={field.value ?? false}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Since Last */}
-            <FormField
-              control={form.control}
-              name="since_last"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center space-x-4">
-                  <FormLabel>Since Last</FormLabel>
-                  <FormControl>
-                    <Switch
-                      checked={field.value ?? false}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Since Last */}
+          <FormField
+            control={form.control}
+            name="since_last"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center space-x-4">
+                <FormLabel>Since Last</FormLabel>
+                <FormControl>
+                  <Switch
+                    checked={field.value ?? false}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Updated Date */}
-            <FormField
-              control={form.control}
-              name="updated_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Last Updated</FormLabel>
-                  <FormControl>
-                    <Input disabled {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Updated Date */}
+          <FormField
+            control={form.control}
+            name="updated_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Updated</FormLabel>
+                <FormControl>
+                  <Input disabled {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Inputs (JSON) */}
-            <FormField
-              control={form.control}
-              name="inputs"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Inputs (JSON)</FormLabel>
-                  <FormControl>
-                    <Input placeholder='e.g., {"blah": "example"}' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* Inputs (JSON) */}
+          <FormField
+            control={form.control}
+            name="inputs"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Inputs (JSON)</FormLabel>
+                <FormControl>
+                  <Input placeholder='e.g., {"blah": "example"}' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <DialogFooter>
-              <Button type="submit">Save Changes</Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+          <DialogFooter>
+            <Button type="submit">Save Changes</Button>
+          </DialogFooter>
+        </form>
+      </Form>
+    </DialogDrawer>
   );
 }
 

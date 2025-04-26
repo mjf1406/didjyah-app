@@ -5,6 +5,11 @@
 - timer activation
 - stopwatch activation
 - inputs
+  - select
+  - checkbox
+  - text
+  - number
+  - switch
 - drag and drop reorder Didjyahs
 
 ## Change Log
@@ -14,7 +19,8 @@
 - delete Didjyah
 - can create and edit a Didjyah
 - since type is working
-- better mobile support
+- better mobile support for the Didjyah list
+- better mobile support for the dialogs
 
 ### 2025/04/25
 
