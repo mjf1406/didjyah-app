@@ -73,7 +73,7 @@ const DidjyahList: React.FC = () => {
   }
 
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-0">
+    <div className="flex w-full flex-col items-center justify-center gap-2">
       {data.map((item) => (
         <DidjyahCard key={item.id} detail={item} />
       ))}
