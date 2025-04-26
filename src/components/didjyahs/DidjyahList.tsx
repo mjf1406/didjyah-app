@@ -4,7 +4,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CircleX } from "lucide-react";
-import { DidjyahOptions } from "@/app/api/didjyahs/queryOptions";
+import { DidjyahOptions } from "@/app/api/queryOptions";
 import type { DidjyahDb } from "@/server/db/types";
 import DidjyahCard from "./DidjyahCard";
 import LoaderSmallInline from "../loading/LoaderSmallInline";
@@ -73,7 +73,7 @@ const DidjyahList: React.FC = () => {
   }
 
   return (
-    <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+    <div className="flex w-full flex-col items-center justify-center gap-0">
       {data.map((item) => (
         <DidjyahCard key={item.id} detail={item} />
       ))}

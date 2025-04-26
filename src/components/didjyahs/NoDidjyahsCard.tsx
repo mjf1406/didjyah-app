@@ -11,6 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
 import Image from "next/image";
+import { CreateDidjyahDialog } from "./CreateDidjyahDialog";
+import noDidjyahImage from "public/no-didjyahs.png";
 
 interface NoDidjyahsCardProps {
   onCreateDidjyah?: () => void;
@@ -30,11 +32,12 @@ const NoDidjyahsCard: React.FC<NoDidjyahsCardProps> = ({
       </CardHeader>
       <CardContent className="space-y-4 text-center">
         <Image
-          src="/no-didjyahs.png" // Ensure you have this SVG in your public/images directory
+          src={noDidjyahImage}
           alt="Funny Robot"
           width={300}
           height={300}
           className="mb-4"
+          placeholder="blur"
         />
         <p>
           It looks like you haven&apos;t created any {APP_NAME}s yet. Get
@@ -42,9 +45,7 @@ const NoDidjyahsCard: React.FC<NoDidjyahsCardProps> = ({
         </p>
       </CardContent>
       <CardFooter className="flex flex-col gap-2 sm:flex-row sm:justify-center">
-        <Button variant="default" onClick={onCreateDidjyah}>
-          Create {APP_NAME}
-        </Button>
+        <CreateDidjyahDialog />
         <Button variant="outline" onClick={onAddPresets}>
           Add Presets
         </Button>

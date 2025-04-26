@@ -15,13 +15,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import CreateDidjyahDialog from "./didjyahs/CreateDidjyahDialog";
 
 export default function Navbar() {
   const navItems = [
-    {
-      title: "Home",
-      url: "/",
-    },
     {
       title: "About",
       url: "/about",
@@ -67,24 +64,26 @@ export default function Navbar() {
         <div className="hidden md:block">
           <LogoHeader />
         </div>
-        {/* Desktop Navigation */}
-        <nav className="hidden md:block">
-          <ul className="flex space-x-6">
-            {navItems.map((item) => (
-              <li key={item.title}>
-                <Link className="text-sm hover:underline" href={item.url}>
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          <ThemeToggle />
+        <div className="flex items-center justify-center gap-5">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:block">
+            <ul className="flex space-x-6">
+              {navItems.map((item) => (
+                <li key={item.title}>
+                  <Link className="hover:underline" href={item.url}>
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <CreateDidjyahDialog />
+          <div className="flex items-center gap-2">
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>

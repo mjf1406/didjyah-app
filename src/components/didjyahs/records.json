@@ -1,0 +1,350 @@
+[
+  {
+    "id": "5t4ef0zgkzpku83plcyvg2ntt1nss4tj",
+    "emoji": "💦",
+    "name": "Water",
+    "unit": "ml",
+    "quantity": 250,
+    "inputs": null,
+    "stopwatch": false,
+    "records": [
+      { "dt": "2025-04-26T01:27:51.262Z" },
+      { "dt": "2025-04-26T01:27:51.405Z" }
+    ],
+    "active": null,
+    "location": "local",
+    "dailyGoal": 15,
+    "timer": false
+  },
+  {
+    "id": "h63bdev7q0imuht3i96v3z4dkurc1wj4",
+    "emoji": "⚖️",
+    "name": "Weight",
+    "unit": "kg",
+    "quantity": false,
+    "inputs": [{ "name": "kilogram", "type": "number" }],
+    "stopwatch": false,
+    "records": [{ "dt": "2025-04-26T01:27:52.844Z", "kilogram": "34" }],
+    "active": null,
+    "location": "local",
+    "dailyGoal": 1,
+    "timer": false
+  },
+  {
+    "id": "xt0ymvejp34sr1eb5z2gqnb9z2izcjw4",
+    "emoji": "💩",
+    "name": "Poop",
+    "unit": null,
+    "quantity": null,
+    "inputs": [
+      {
+        "name": "Bristol Stool Type",
+        "type": "select",
+        "options": [
+          { "name": "Select stool type..." },
+          { "name": "1 -separate hard lumps" },
+          { "name": "2 - lumpy and sausage like" },
+          { "name": "3 - a sausage shape with cracks in the surface" },
+          { "name": "4 - like a smooth, soft sausage or snake" },
+          { "name": "5 - soft blobs with clear-cut edges" },
+          { "name": "6 - mushy consistency with ragged edges" },
+          { "name": "7 - liquid consistency with no solid pieces" }
+        ]
+      },
+      {
+        "name": "Color",
+        "type": "select",
+        "options": [
+          { "name": "Select stool color..." },
+          {
+            "name": "pale, light, or white",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#f7e2c9"
+            }
+          },
+          {
+            "name": "yellowish",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#b59c2b"
+            }
+          },
+          {
+            "name": "brown",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#61352d"
+            }
+          },
+          {
+            "name": "green",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#5a6133"
+            }
+          },
+          {
+            "name": "bright red",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#e15b40"
+            }
+          },
+          {
+            "name": "black or dark brown",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#241f21"
+            }
+          }
+        ]
+      },
+      { "name": "Stool Quantity", "type": "number" },
+      {
+        "name": "Stool Shape",
+        "type": "select",
+        "options": [
+          { "name": "Select stool shape..." },
+          {
+            "name": "sausage",
+            "icon": { "name": "ICON_CIRCLE_FILLED", "width": 15, "height": 15 }
+          },
+          {
+            "name": "i-beam",
+            "icon": { "name": "ICON_I", "width": 15, "height": 15 }
+          },
+          {
+            "name": "thin bar",
+            "icon": { "name": "ICON_SQUARE_FILLED", "width": 15, "height": 7 }
+          },
+          {
+            "name": "thin sausage",
+            "icon": { "name": "ICON_CIRCLE_FILLED", "width": 8, "height": 8 }
+          },
+          {
+            "name": "rectangular prism",
+            "icon": { "name": "ICON_SQUARE_FILLED", "width": 15, "height": 15 }
+          },
+          {
+            "name": "coffee grounds",
+            "icon": { "name": "ICON_SPINNER", "width": 15, "height": 15 }
+          }
+        ]
+      },
+      { "name": "Wipes", "type": "number" }
+    ],
+    "stopwatch": false,
+    "records": [],
+    "active": null,
+    "location": "local",
+    "dailyGoal": null,
+    "timer": false
+  },
+  {
+    "id": "52ifsu9dmx6jv0twv2erfp3irj3zej18",
+    "emoji": "🛏️",
+    "name": "Bed Time",
+    "unit": null,
+    "quantity": null,
+    "inputs": null,
+    "stopwatch": true,
+    "records": [
+      {
+        "dt": "2025-04-26T01:28:01.170Z",
+        "endTime": "2025-04-26T01:28:06.106Z"
+      }
+    ],
+    "active": false,
+    "location": "local",
+    "dailyGoal": null,
+    "timer": false
+  },
+  {
+    "id": "hmwloj6yrksbyydbqw7s6w6wr6l6tafc",
+    "emoji": "🪥",
+    "name": "Brush Teeth",
+    "unit": null,
+    "quantity": null,
+    "inputs": null,
+    "stopwatch": false,
+    "records": [],
+    "active": null,
+    "location": "local",
+    "dailyGoal": 2,
+    "timer": 120
+  },
+  {
+    "id": "aaxc5tok6v0g73s97rzbq5uuaa9ix4yd",
+    "emoji": "🚽",
+    "name": "Pee",
+    "unit": null,
+    "quantity": null,
+    "inputs": [
+      {
+        "name": "Color",
+        "type": "select",
+        "options": [
+          { "name": "Select urine color..." },
+          {
+            "name": "over-hydrated",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#fcffe2"
+            }
+          },
+          {
+            "name": "good hydration",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#fcf4a9"
+            }
+          },
+          {
+            "name": "fair hydration",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#fce971"
+            }
+          },
+          {
+            "name": "slight dehydration",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#f9d401"
+            }
+          },
+          {
+            "name": "moderate dehydration",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#e99f01"
+            }
+          },
+          {
+            "name": "high dehydration",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#de6f04"
+            }
+          },
+          {
+            "name": "severe dehydration",
+            "icon": {
+              "name": "ICON_CIRCLE_FILLED",
+              "width": 15,
+              "height": 15,
+              "color": "#d23c07"
+            }
+          }
+        ]
+      }
+    ],
+    "stopwatch": false,
+    "records": [],
+    "active": null,
+    "location": "local",
+    "dailyGoal": null,
+    "timer": false
+  },
+  {
+    "id": "wotsddxo145ixk6bxhypkbhx4z49lkvs",
+    "emoji": "🧵",
+    "name": "Floss",
+    "unit": null,
+    "quantity": null,
+    "inputs": null,
+    "stopwatch": false,
+    "records": [],
+    "active": null,
+    "location": "local",
+    "dailyGoal": 1,
+    "timer": false
+  },
+  {
+    "id": "i51oywikqgidyr72vcrz3vmvy1hqwxsu",
+    "emoji": "🚰",
+    "name": "Mouthwash",
+    "unit": null,
+    "quantity": null,
+    "inputs": null,
+    "stopwatch": false,
+    "records": [{ "dt": "2025-04-26T01:27:48.112Z" }],
+    "active": null,
+    "location": "local",
+    "dailyGoal": 2,
+    "timer": 60
+  },
+  {
+    "id": "8xm8l40tkgo2hadk9g4f8xjcz6q7iffo",
+    "emoji": "🍽️",
+    "name": "Meal",
+    "unit": null,
+    "quantity": null,
+    "inputs": null,
+    "stopwatch": false,
+    "records": [],
+    "active": null,
+    "location": "local",
+    "dailyGoal": 3,
+    "timer": false
+  },
+  {
+    "id": "av1k39ywumdlwwrx0dr07o5ve8bit2cw",
+    "emoji": "🥛",
+    "name": "Shake",
+    "unit": null,
+    "quantity": null,
+    "inputs": null,
+    "stopwatch": false,
+    "records": [],
+    "active": null,
+    "location": "local",
+    "dailyGoal": 1,
+    "timer": false
+  },
+  {
+    "id": "33o1tg4sgjp4jayuh1nmwyhn8npvtg2e",
+    "emoji": "🧘",
+    "name": "Meditation",
+    "unit": null,
+    "quantity": null,
+    "inputs": [{ "name": "Difficult", "type": "boolean" }],
+    "stopwatch": true,
+    "records": [
+      {
+        "dt": "2025-04-26T01:27:56.153Z",
+        "Difficult": true,
+        "endTime": "2025-04-26T01:27:59.933Z"
+      }
+    ],
+    "active": false,
+    "location": "local",
+    "dailyGoal": null,
+    "timer": false
+  }
+]

@@ -2,7 +2,17 @@
 
 ## To-do List
 
+- timer activation
+- stopwatch activation
+- since type but without it
+- inputs
+- delete Didjyah
+
 ## Change Log
+
+### 2025/04/26
+
+- can create and edit a Didjyah
 
 ### 2025/04/25
 
